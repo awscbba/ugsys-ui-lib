@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+# pre-push hook for @ugsys/ui-lib
+# Runs: tsc --noEmit + vitest with 80% coverage gate
+# Install via: just install-hooks
+
+set -euo pipefail
+
+# ── Block direct pushes to main ───────────────────────────────────────────────
+BRANCH=$(git symbolic-ref --short HEAD 2>/dev/null || echo "")
+if [ "$BRANCH" = "main" ]; then
+  echo "❌ Direct pushes to 'main' are not allowed."
+  echo "   Open a PR from your feature branch."
+  exit 1
+fi
+
+# ── TypeScript type check ─────────────────────────────────────────────────────
+echo "🔎 Running tsc --noEmit..."
+pnpm typecheck
+echo "✅ TypeScript passed"
+
+# ── Tests + coverage gate ─────────────────────────────────────────────────────
+echo "🧪 Running vitest with coverage..."
+pnpm test
+echo "✅ Tests passed"
+
+echo "✅ pre-push checks passed"
