@@ -1,26 +1,55 @@
 #!/usr/bin/env bash
 # pre-push hook for @ugsys/ui-lib
-# Runs: tsc --noEmit + vitest with 80% coverage gate
+# Runs: block main pushes, tsc --noEmit + vitest with 80% coverage gate
 # Install via: just install-hooks
 
 set -euo pipefail
 
-# ── Block direct pushes to main ───────────────────────────────────────────────
 BRANCH=$(git symbolic-ref --short HEAD 2>/dev/null || echo "")
+
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "  pre-push checks"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+
+# ── Block direct pushes to main ───────────────────────────────────────────────
 if [ "$BRANCH" = "main" ]; then
-  echo "❌ Direct pushes to 'main' are not allowed."
-  echo "   Open a PR from your feature branch."
+  echo "✗ Direct pushes to 'main' are not allowed."
+  echo "  Open a pull request from your feature branch."
   exit 1
 fi
 
+echo "  branch : $BRANCH"
+echo ""
+
+FAILED=0
+
 # ── TypeScript type check ─────────────────────────────────────────────────────
-echo "🔎 Running tsc --noEmit..."
-pnpm typecheck
-echo "✅ TypeScript passed"
+echo "▶ tsc --noEmit ..."
+if ! pnpm typecheck; then
+  echo "✗ TypeScript type check failed. Run 'just typecheck' for details."
+  FAILED=1
+else
+  echo "✓ tsc passed"
+fi
+echo ""
 
 # ── Tests + coverage gate ─────────────────────────────────────────────────────
-echo "🧪 Running vitest with coverage..."
-pnpm test
-echo "✅ Tests passed"
+echo "▶ vitest run --coverage (80% gate) ..."
+if ! pnpm test; then
+  echo "✗ Tests failed or coverage below 80%. Run 'just test' for details."
+  FAILED=1
+else
+  echo "✓ vitest passed (≥80% coverage)"
+fi
+echo ""
 
-echo "✅ pre-push checks passed"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+if [ "$FAILED" -ne 0 ]; then
+  echo "✗ pre-push checks FAILED — fix the errors above before pushing."
+  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+  exit 1
+fi
+
+echo "✓ pre-push checks passed"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+exit 0
