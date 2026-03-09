@@ -152,6 +152,27 @@ describe("UserMenu", () => {
     expect(items[0]).toHaveFocus();
   });
 
+  it("extra item with href renders as a link menuitem", async () => {
+    renderMenu({
+      extraItems: [{ label: "Documentos", href: "/docs" }],
+    });
+    await userEvent.click(screen.getByRole("button"));
+    const link = screen.getByText("Documentos").closest("a");
+    expect(link).toHaveAttribute("href", "/docs");
+    expect(link).toHaveAttribute("role", "menuitem");
+  });
+
+  it("extra item with onClick calls handler and closes menu", async () => {
+    const onClick = vi.fn();
+    renderMenu({
+      extraItems: [{ label: "Acción", onClick }],
+    });
+    await userEvent.click(screen.getByRole("button"));
+    await userEvent.click(screen.getByText("Acción"));
+    expect(onClick).toHaveBeenCalledOnce();
+    expect(screen.queryByRole("menu")).not.toBeInTheDocument();
+  });
+
   it("End jumps to last menuitem", async () => {
     renderMenu({ profileHref: "/dashboard" });
     await userEvent.click(screen.getByRole("button"));

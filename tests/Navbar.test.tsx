@@ -55,6 +55,48 @@ describe("Navbar", () => {
     expect(hamburger).toHaveAttribute("aria-expanded", "true");
   });
 
+  it("Enter on hamburger toggles mobile menu open", async () => {
+    render(<Navbar links={baseLinks} />);
+    const hamburger = screen.getByRole("button", {
+      name: /toggle navigation/i,
+    });
+    hamburger.focus();
+    await userEvent.keyboard("{Enter}");
+    expect(hamburger).toHaveAttribute("aria-expanded", "true");
+    expect(
+      screen.getByRole("navigation", { name: /mobile navigation/i }),
+    ).toBeInTheDocument();
+  });
+
+  it("Space on hamburger toggles mobile menu open", async () => {
+    render(<Navbar links={baseLinks} />);
+    const hamburger = screen.getByRole("button", {
+      name: /toggle navigation/i,
+    });
+    hamburger.focus();
+    await userEvent.keyboard(" ");
+    expect(hamburger).toHaveAttribute("aria-expanded", "true");
+  });
+
+  it("userMenuSlot renders inside mobile menu when open", async () => {
+    render(
+      <Navbar
+        links={baseLinks}
+        userMenuSlot={<button data-testid="mobile-user-slot">User</button>}
+      />,
+    );
+    const hamburger = screen.getByRole("button", {
+      name: /toggle navigation/i,
+    });
+    await userEvent.click(hamburger);
+    const mobileNav = screen.getByRole("navigation", {
+      name: /mobile navigation/i,
+    });
+    expect(
+      mobileNav.querySelector("[data-testid='mobile-user-slot']"),
+    ).toBeInTheDocument();
+  });
+
   it("userMenuSlot content renders", () => {
     render(
       <Navbar
