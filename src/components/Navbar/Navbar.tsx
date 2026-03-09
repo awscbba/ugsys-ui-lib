@@ -24,7 +24,7 @@ export function Navbar({
     }
   }
 
-  function renderNavLink(link: LinkItem) {
+  function renderNavLink(link: LinkItem, index: number) {
     const baseClass =
       "px-3 py-2 rounded text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-accent";
     const activeClass = "bg-brand text-primary";
@@ -34,7 +34,7 @@ export function Navbar({
     if (link.external) {
       return (
         <a
-          key={link.href}
+          key={index}
           href={link.href}
           className={className}
           target="_blank"
@@ -47,7 +47,7 @@ export function Navbar({
     }
 
     return (
-      <React.Fragment key={link.href}>
+      <React.Fragment key={index}>
         {renderLink({
           href: link.href,
           className,
@@ -79,7 +79,7 @@ export function Navbar({
             aria-label="Main navigation"
             className="hidden md:flex items-center gap-1"
           >
-            {links.map(renderNavLink)}
+            {links.map((link, i) => renderNavLink(link, i))}
           </nav>
 
           {/* Right side: userMenuSlot + hamburger */}
@@ -140,7 +140,7 @@ export function Navbar({
           aria-label="Mobile navigation"
           className="md:hidden bg-primary border-t border-white/10 px-4 py-3 flex flex-col gap-1"
         >
-          {links.map(renderNavLink)}
+          {links.map((link, i) => renderNavLink(link, i))}
           {userMenuSlot && (
             <div className="pt-2 border-t border-white/10">{userMenuSlot}</div>
           )}
