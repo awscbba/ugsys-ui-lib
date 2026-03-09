@@ -133,3 +133,71 @@ jobs:
           files: ugsys-ui-lib-${{ steps.version.outputs.version }}.tar.gz
           draft: false
           prerelease: false
+
+      - name: Notify success
+        if: env.skip != 'true' && success()
+        uses: slackapi/slack-github-action@v2.0.0
+        with:
+          method: chat.postMessage
+          token: ${{ secrets.SLACK_BOT_TOKEN }}
+          payload: |
+            {
+              "channel": "C0AE6QV0URH",
+              "username": "ugsys CI/CD",
+              "icon_emoji": ":rocket:",
+              "text": "🚀 Released — @ugsys/ui-lib ${{ steps.version.outputs.tag }}",
+              "blocks": [
+                {
+                  "type": "header",
+                  "text": {"type": "plain_text", "text": "🚀 Released — @ugsys/ui-lib ${{ steps.version.outputs.tag }}", "emoji": true}
+                },
+                {
+                  "type": "section",
+                  "fields": [
+                    {"type": "mrkdwn", "text": "*Version:*\n`${{ steps.version.outputs.tag }}`"},
+                    {"type": "mrkdwn", "text": "*By:*\n${{ github.actor }}"}
+                  ]
+                },
+                {
+                  "type": "actions",
+                  "elements": [
+                    {"type": "button", "text": {"type": "plain_text", "text": "View Release"},
+                     "url": "${{ github.server_url }}/${{ github.repository }}/releases/tag/${{ steps.version.outputs.tag }}"}
+                  ]
+                }
+              ]
+            }
+
+      - name: Notify failure
+        if: failure()
+        uses: slackapi/slack-github-action@v2.0.0
+        with:
+          method: chat.postMessage
+          token: ${{ secrets.SLACK_BOT_TOKEN }}
+          payload: |
+            {
+              "channel": "C0AE6QV0URH",
+              "username": "ugsys CI/CD",
+              "icon_emoji": ":x:",
+              "text": "❌ Release Failed — ugsys-ui-lib",
+              "blocks": [
+                {
+                  "type": "header",
+                  "text": {"type": "plain_text", "text": "❌ Release Failed — ugsys-ui-lib", "emoji": true}
+                },
+                {
+                  "type": "section",
+                  "fields": [
+                    {"type": "mrkdwn", "text": "*Branch:*\n`${{ github.ref_name }}`"},
+                    {"type": "mrkdwn", "text": "*By:*\n${{ github.actor }}"}
+                  ]
+                },
+                {
+                  "type": "actions",
+                  "elements": [
+                    {"type": "button", "text": {"type": "plain_text", "text": "View Run"},
+                     "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"}
+                  ]
+                }
+              ]
+            }
