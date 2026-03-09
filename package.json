@@ -12,7 +12,16 @@
       "import": "./dist/index.mjs",
       "require": "./dist/index.cjs"
     },
-    "./tokens.css": "./dist/tokens.css",
+    "./tokens.css": {
+      "style": "./dist/tokens.css",
+      "import": "./dist/tokens.css",
+      "default": "./dist/tokens.css"
+    },
+    "./dist/tokens.css": {
+      "style": "./dist/tokens.css",
+      "import": "./dist/tokens.css",
+      "default": "./dist/tokens.css"
+    },
     "./tailwind.preset": "./tailwind.preset.ts"
   },
   "files": [
