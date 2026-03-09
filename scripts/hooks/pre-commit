@@ -1,0 +1,76 @@
+#!/usr/bin/env bash
+# pre-commit hook for @ugsys/ui-lib
+# Runs: block main commits, ESLint + Prettier on staged files only
+# Install via: just install-hooks
+
+set -euo pipefail
+
+BRANCH=$(git symbolic-ref --short HEAD 2>/dev/null || echo "")
+
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "  pre-commit checks"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+
+# ── Block direct commits to main ──────────────────────────────────────────────
+if [ "$BRANCH" = "main" ]; then
+  echo "✗ Direct commits to 'main' are not allowed."
+  echo "  Create a feature branch: git checkout -b feature/<description>"
+  exit 1
+fi
+
+echo "  branch : $BRANCH"
+echo ""
+
+# ── Collect staged TS/TSX/CSS files ──────────────────────────────────────────
+STAGED=$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.(ts|tsx|css)$' || true)
+
+if [ -z "$STAGED" ]; then
+  echo "  (no staged TypeScript/CSS files — skipping lint)"
+  echo ""
+  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+  echo "✓ pre-commit checks passed"
+  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+  exit 0
+fi
+
+echo "── Staged files ─────────────────────────────────────"
+for f in $STAGED; do echo "   $f"; done
+echo ""
+
+FAILED=0
+
+# ── ESLint on staged TS/TSX files ────────────────────────────────────────────
+STAGED_TS=$(echo "$STAGED" | grep -E '\.(ts|tsx)$' || true)
+if [ -n "$STAGED_TS" ]; then
+  echo "▶ ESLint ..."
+  # shellcheck disable=SC2086
+  if ! pnpm exec eslint --max-warnings=0 $STAGED_TS; then
+    echo "✗ ESLint failed. Run 'just lint-eslint' to see all issues."
+    FAILED=1
+  else
+    echo "✓ ESLint passed"
+  fi
+  echo ""
+fi
+
+# ── Prettier on all staged files ─────────────────────────────────────────────
+echo "▶ Prettier --check ..."
+# shellcheck disable=SC2086
+if ! pnpm exec prettier --check $STAGED; then
+  echo "✗ Prettier check failed. Run 'just format' to fix."
+  FAILED=1
+else
+  echo "✓ Prettier passed"
+fi
+echo ""
+
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+if [ "$FAILED" -ne 0 ]; then
+  echo "✗ pre-commit checks FAILED — fix the errors above before committing."
+  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+  exit 1
+fi
+
+echo "✓ pre-commit checks passed"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+exit 0

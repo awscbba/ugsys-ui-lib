@@ -1,0 +1,15 @@
+/* AWS User Group Cochabamba — Design Tokens */
+:root {
+  /* Brand palette */
+  --color-primary: #161d2b;
+  --color-brand: #ff9900;
+  --color-accent: #4a90e2;
+  --color-footer: #333333;
+  --color-background: #f8f8f8;
+
+  /* Focus ring */
+  --color-focus-ring: #4a90e2;
+
+  /* Typography */
+  --font-sans: "Open Sans", ui-sans-serif, system-ui, sans-serif;
+}
