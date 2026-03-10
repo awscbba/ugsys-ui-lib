@@ -16,10 +16,11 @@ describe("Navbar", () => {
     expect(screen.getByText("AWS User Group Cochabamba")).toBeInTheDocument();
   });
 
-  it("applies bg-primary class to header element", () => {
+  it("renders header as sticky with dark surface style", () => {
     const { container } = render(<Navbar links={[]} />);
     const header = container.querySelector("header");
-    expect(header).toHaveClass("bg-primary");
+    expect(header).toHaveClass("sticky", "top-0", "z-50");
+    expect(header).toHaveStyle({ backgroundColor: "#1e2738" });
   });
 
   it("renders brandSubtitle when provided", () => {
