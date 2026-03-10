@@ -174,14 +174,26 @@ describe("Navbar", () => {
           { minLength: 1, maxLength: 8 },
         ),
         (links) => {
-          const { unmount, container } = render(<Navbar links={links} />);
+          // Deduplicate by label — duplicate labels make find() ambiguous
+          const seen = new Set<string>();
+          const uniqueLinks = links.filter((l) => {
+            const key = l.label.trim();
+            if (key.length === 0 || seen.has(key)) return false;
+            seen.add(key);
+            return true;
+          });
+          if (uniqueLinks.length === 0) return;
+
+          const { unmount, container } = render(<Navbar links={uniqueLinks} />);
           const allLinkEls = container.querySelectorAll(
             "a, button[class*='px-3']",
           );
           allLinkEls.forEach((el) => {
             const hasBrand = el.className.includes("bg-brand");
-            const label = el.textContent ?? "";
-            const matchingLink = links.find((l) => l.label === label);
+            const label = (el.textContent ?? "").trim();
+            const matchingLink = uniqueLinks.find(
+              (l) => l.label.trim() === label,
+            );
             if (matchingLink) {
               if (matchingLink.active) {
                 expect(hasBrand).toBe(true);
