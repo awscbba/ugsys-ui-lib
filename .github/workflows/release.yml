@@ -95,7 +95,7 @@ jobs:
       - name: Create dist tarball
         if: env.skip != 'true'
         run: |
-          tar -czf ugsys-ui-lib-${{ steps.version.outputs.version }}.tar.gz dist/ tailwind.preset.ts
+          tar -czf ugsys-ui-lib-${{ steps.version.outputs.version }}.tar.gz dist/ src/ tailwind.preset.ts
           echo "Tarball contents:"
           tar -tzf ugsys-ui-lib-${{ steps.version.outputs.version }}.tar.gz
 
@@ -127,6 +127,7 @@ jobs:
             - `dist/index.cjs` — CJS build
             - `dist/index.d.ts` — TypeScript declarations
             - `dist/tokens.css` — CSS custom properties
+            - `src/` — raw TypeScript source (for Tailwind v4 `@source` scanning)
             - `tailwind.preset.ts` — Tailwind v4 preset
 
             See [CHANGELOG.md](https://github.com/${{ github.repository }}/blob/main/CHANGELOG.md) for details.
