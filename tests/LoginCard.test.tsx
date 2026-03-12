@@ -99,4 +99,17 @@ describe("LoginCard", () => {
     expect(emailInput).toBeDisabled();
     expect(passwordInput).toBeDisabled();
   });
+
+  it("renders footer content when provided", () => {
+    renderCard({ footer: <a href="/register">Crear cuenta</a> });
+    expect(
+      screen.getByRole("link", { name: "Crear cuenta" }),
+    ).toBeInTheDocument();
+  });
+
+  it("does not render footer container when footer is not provided", () => {
+    const { container } = renderCard();
+    // no extra div.mt-4 when footer is absent
+    expect(container.querySelector(".mt-4")).not.toBeInTheDocument();
+  });
 });

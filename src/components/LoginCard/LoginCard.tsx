@@ -22,6 +22,8 @@ export interface LoginCardProps {
   onEmailChange: (value: string) => void;
   onPasswordChange: (value: string) => void;
   onSubmit: (e: React.FormEvent) => void;
+  /** Optional footer content rendered below the submit button (e.g. register link, forgot password) */
+  footer?: React.ReactNode;
 }
 
 export function LoginCard({
@@ -37,6 +39,7 @@ export function LoginCard({
   onEmailChange,
   onPasswordChange,
   onSubmit,
+  footer,
 }: LoginCardProps) {
   return (
     <div className="flex items-center justify-center min-h-screen bg-primary font-sans">
@@ -87,6 +90,8 @@ export function LoginCard({
         >
           {isLoading ? loadingLabel : submitLabel}
         </button>
+
+        {footer && <div className="mt-4">{footer}</div>}
       </form>
     </div>
   );
