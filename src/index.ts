@@ -2,6 +2,8 @@
 export { Navbar } from "./components/Navbar";
 export { Footer } from "./components/Footer";
 export { UserMenu } from "./components/UserMenu";
+export { LoginCard } from "./components/LoginCard";
+export type { LoginCardProps } from "./components/LoginCard";
 
 // Hooks
 export { useFocusManagement } from "./hooks/useFocusManagement";
