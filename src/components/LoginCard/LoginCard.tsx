@@ -42,12 +42,12 @@ export function LoginCard({
   footer,
 }: LoginCardProps) {
   return (
-    <div className="flex items-center justify-center min-h-screen bg-primary font-sans">
+    <div className="flex items-center justify-center min-h-screen font-sans">
       <form
         onSubmit={onSubmit}
         noValidate
         aria-label={title}
-        className="flex flex-col gap-4 p-10 bg-white rounded-xl shadow-lg w-[360px]"
+        className="flex flex-col gap-4 p-10 bg-background rounded-xl shadow-lg w-[360px]"
       >
         <h1 className="m-0 text-[22px] font-bold text-gray-900">{title}</h1>
 
