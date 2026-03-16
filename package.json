@@ -72,5 +72,10 @@
   },
   "dependencies": {
     "nanostores": "^1.2.0"
+  },
+  "pnpm": {
+    "overrides": {
+      "flatted": ">=3.4.0"
+    }
   }
 }
