@@ -20,7 +20,9 @@ describe("Navbar", () => {
     const { container } = render(<Navbar links={[]} />);
     const header = container.querySelector("header");
     expect(header).toHaveClass("sticky", "top-0", "z-50");
-    expect(header).toHaveStyle({ backgroundColor: "#1e2738" });
+    expect(header).toHaveStyle({
+      backgroundColor: "var(--color-surface-elevated)",
+    });
   });
 
   it("renders brandSubtitle when provided", () => {
