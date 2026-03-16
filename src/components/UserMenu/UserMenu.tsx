@@ -130,14 +130,26 @@ export function UserMenu({
           aria-label="User menu"
           tabIndex={-1}
           onKeyDown={handleMenuKeyDown}
-          className="absolute right-0 mt-2 w-56 bg-white rounded-md shadow-lg ring-1 ring-black/5 z-50 py-1"
+          className="absolute right-0 mt-2 w-56 rounded-md shadow-lg ring-1 ring-black/5 z-50 py-1"
+          style={{ backgroundColor: "var(--color-surface-elevated)" }}
         >
           {/* Header */}
-          <div className="px-4 py-3 border-b border-gray-100">
-            <p className="text-sm font-medium text-gray-900 truncate">
+          <div
+            className="px-4 py-3"
+            style={{ borderBottom: "1px solid var(--color-border)" }}
+          >
+            <p
+              className="text-sm font-medium truncate"
+              style={{ color: "var(--color-text-primary)" }}
+            >
               {user.name}
             </p>
-            <p className="text-xs text-gray-500 truncate">{user.email}</p>
+            <p
+              className="text-xs truncate"
+              style={{ color: "var(--color-text-secondary)" }}
+            >
+              {user.email}
+            </p>
           </div>
 
           {/* Profile link */}
@@ -146,7 +158,8 @@ export function UserMenu({
               href: profileHref,
               role: "menuitem",
               className:
-                "block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus-visible:outline-2 focus-visible:outline-accent",
+                "block w-full px-4 py-2 text-sm hover:bg-black/5 focus-visible:outline-2 focus-visible:outline-accent",
+              style: { color: "var(--color-text-secondary)" },
               children: "Mi Perfil",
             })}
 
@@ -163,7 +176,8 @@ export function UserMenu({
                 href: item.href,
                 role: "menuitem",
                 className:
-                  "flex items-center gap-2 w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus-visible:outline-2 focus-visible:outline-accent",
+                  "flex items-center gap-2 w-full px-4 py-2 text-sm hover:bg-black/5 focus-visible:outline-2 focus-visible:outline-accent",
+                style: { color: "var(--color-text-secondary)" },
                 children: (
                   <>
                     {item.icon}
@@ -181,7 +195,8 @@ export function UserMenu({
                   item.onClick?.();
                   close();
                 }}
-                className="flex items-center gap-2 w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus-visible:outline-2 focus-visible:outline-accent text-left"
+                className="flex items-center gap-2 w-full px-4 py-2 text-sm hover:bg-black/5 focus-visible:outline-2 focus-visible:outline-accent text-left"
+                style={{ color: "var(--color-text-secondary)" }}
               >
                 {item.icon}
                 {item.label}
@@ -190,7 +205,10 @@ export function UserMenu({
           })}
 
           {/* Logout */}
-          <div className="border-t border-gray-100 mt-1">
+          <div
+            className="mt-1"
+            style={{ borderTop: "1px solid var(--color-border)" }}
+          >
             <button
               type="button"
               role="menuitem"
@@ -198,7 +216,8 @@ export function UserMenu({
                 onLogout();
                 close();
               }}
-              className="w-full px-4 py-2 text-sm text-red-600 hover:bg-red-50 focus-visible:outline-2 focus-visible:outline-accent text-left"
+              className="w-full px-4 py-2 text-sm hover:bg-black/5 focus-visible:outline-2 focus-visible:outline-accent text-left"
+              style={{ color: "var(--color-error)" }}
             >
               Cerrar Sesión
             </button>

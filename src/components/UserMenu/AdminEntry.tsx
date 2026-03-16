@@ -9,7 +9,7 @@ export function AdminEntry({ adminPanelUrl, onClose }: AdminEntryProps) {
     <a
       href={adminPanelUrl}
       role="menuitem"
-      className="flex items-center gap-2 w-full px-4 py-2 text-sm text-brand hover:bg-gray-100 focus-visible:outline-2 focus-visible:outline-accent"
+      className="flex items-center gap-2 w-full px-4 py-2 text-sm text-brand hover:bg-black/5 focus-visible:outline-2 focus-visible:outline-accent"
       onClick={onClose}
     >
       {/* Shield icon */}

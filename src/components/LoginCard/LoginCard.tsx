@@ -49,15 +49,27 @@ export function LoginCard({
         aria-label={title}
         className="flex flex-col gap-4 p-10 bg-background rounded-xl shadow-lg w-[360px]"
       >
-        <h1 className="m-0 text-[22px] font-bold text-gray-900">{title}</h1>
+        <h1
+          className="m-0 text-[22px] font-bold"
+          style={{ color: "var(--color-text-primary)" }}
+        >
+          {title}
+        </h1>
 
         {error && (
-          <p role="alert" className="m-0 text-[13px] text-red-600">
+          <p
+            role="alert"
+            className="m-0 text-[13px]"
+            style={{ color: "var(--color-error)" }}
+          >
             {error}
           </p>
         )}
 
-        <label className="flex flex-col gap-1 text-sm text-gray-700">
+        <label
+          className="flex flex-col gap-1 text-sm"
+          style={{ color: "var(--color-text-secondary)" }}
+        >
           {emailLabel}
           <input
             type="email"
@@ -66,11 +78,21 @@ export function LoginCard({
             required
             autoComplete="email"
             disabled={isLoading}
-            className="px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-accent disabled:bg-gray-50 disabled:text-gray-400"
+            className="px-3 py-2 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-accent disabled:opacity-50"
+            style={{
+              backgroundColor: "var(--color-input-bg)",
+              borderWidth: "1px",
+              borderStyle: "solid",
+              borderColor: "var(--color-input-border)",
+              color: "var(--color-text-primary)",
+            }}
           />
         </label>
 
-        <label className="flex flex-col gap-1 text-sm text-gray-700">
+        <label
+          className="flex flex-col gap-1 text-sm"
+          style={{ color: "var(--color-text-secondary)" }}
+        >
           {passwordLabel}
           <input
             type="password"
@@ -79,7 +101,14 @@ export function LoginCard({
             required
             autoComplete="current-password"
             disabled={isLoading}
-            className="px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-accent disabled:bg-gray-50 disabled:text-gray-400"
+            className="px-3 py-2 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-accent disabled:opacity-50"
+            style={{
+              backgroundColor: "var(--color-input-bg)",
+              borderWidth: "1px",
+              borderStyle: "solid",
+              borderColor: "var(--color-input-border)",
+              color: "var(--color-text-primary)",
+            }}
           />
         </label>
 

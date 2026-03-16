@@ -62,8 +62,8 @@ export function Navbar({
     <header
       className="sticky top-0 z-50"
       style={{
-        backgroundColor: "#1e2738",
-        borderBottom: "1px solid rgba(255,255,255,0.07)",
+        backgroundColor: "var(--color-surface-elevated)",
+        borderBottom: "1px solid var(--color-border)",
         backdropFilter: "blur(12px)",
       }}
     >
@@ -145,8 +145,11 @@ export function Navbar({
         <nav
           id="mobile-menu"
           aria-label="Mobile navigation"
-          className="md:hidden border-t border-white/[0.07] px-4 py-3 flex flex-col gap-1"
-          style={{ backgroundColor: "#1e2738" }}
+          className="md:hidden border-t px-4 py-3 flex flex-col gap-1"
+          style={{
+            backgroundColor: "var(--color-surface-elevated)",
+            borderColor: "var(--color-border)",
+          }}
         >
           {links.map((link, i) => renderNavLink(link, i))}
           {userMenuSlot && (
