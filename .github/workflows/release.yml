@@ -32,10 +32,13 @@ jobs:
           git push origin "$TAG" --force
 
           # Create (or update) the release with auto-generated notes
+          # Note: --generate-notes only works with `gh release create`, not `edit`
           if gh release view "$TAG" &>/dev/null; then
+            NOTES=$(gh api repos/${{ github.repository }}/releases/generate-notes \
+              -f tag_name="$TAG" --jq '.body')
             gh release edit "$TAG" \
               --title "$TAG" \
-              --generate-notes
+              --notes "$NOTES"
           else
             gh release create "$TAG" \
               --title "$TAG" \
