@@ -1,4 +1,6 @@
 /* AWS User Group Cochabamba — Design Tokens */
+
+/* ── Light theme (default) ─────────────────────────────────────────────── */
 :root {
   /* Brand palette */
   --color-primary: #161d2b;
@@ -12,4 +14,53 @@
 
   /* Typography */
   --font-sans: "Open Sans", ui-sans-serif, system-ui, sans-serif;
+
+  /* Semantic tokens */
+  --color-surface: #ffffff;
+  --color-surface-elevated: #f9fafb;
+  --color-text-primary: #111827;
+  --color-text-secondary: #4b5563;
+  --color-text-muted: #9ca3af;
+  --color-border: #e5e7eb;
+  --color-input-bg: #ffffff;
+  --color-input-border: #d1d5db;
+  --color-error: #dc2626;
+  --color-error-bg: #fef2f2;
+  --color-error-border: #fecaca;
+}
+
+/* ── Dark theme ────────────────────────────────────────────────────────── */
+[data-theme="dark"] {
+  /* Brand overrides */
+  --color-primary: #0f1419;
+  --color-background: #111827;
+  --color-footer: #0a0e14;
+
+  /* Semantic tokens */
+  --color-surface: #1e2738;
+  --color-surface-elevated: #252f3f;
+  --color-text-primary: #f9fafb;
+  --color-text-secondary: #9ca3af;
+  --color-text-muted: #6b7280;
+  --color-border: #374151;
+  --color-input-bg: #1f2937;
+  --color-input-border: #4b5563;
+  --color-error: #f87171;
+  --color-error-bg: #450a0a;
+  --color-error-border: #7f1d1d;
+}
+
+/* ── Theme transition ──────────────────────────────────────────────────── */
+body,
+.theme-transition {
+  transition-property: background-color, color, border-color;
+  transition-duration: 200ms;
+  transition-timing-function: ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body,
+  .theme-transition {
+    transition-duration: 0ms;
+  }
 }

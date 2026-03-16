@@ -5,6 +5,7 @@ export type RenderLink = (props: {
   href: string;
   children: React.ReactNode;
   className?: string;
+  style?: React.CSSProperties;
   onClick?: () => void;
   role?: string;
   tabIndex?: number;
